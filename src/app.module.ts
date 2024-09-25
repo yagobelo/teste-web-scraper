@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ScrapersModule } from './scrapers/scrapers.module';
 
 @Module({
-  imports: [],
+  imports: [ScrapersModule],
   controllers: [],
   providers: [],
 })
