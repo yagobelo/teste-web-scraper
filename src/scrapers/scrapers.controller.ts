@@ -1,4 +1,10 @@
-import { Body, Controller, Get, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+} from '@nestjs/common';
 import { ScrapersService } from './scrapers.service';
 import * as cheerio from 'cheerio';
 import { GetAllScraperDto } from './dto/getAll-scrapers.dto';
@@ -9,8 +15,11 @@ export class ScrapersController {
 
   @Get()
   async findAll(@Body() getAllScraperDto: GetAllScraperDto) {
-    // eslint-disable-next-line prefer-const
     const { link } = getAllScraperDto;
+    if (!link) {
+      throw new BadRequestException(`Send link, please.`);
+    }
+
     let response: any = await this.scrapersService.findAll(link);
     const html = response.data;
     const $ = cheerio.load(html);
